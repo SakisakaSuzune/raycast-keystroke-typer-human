@@ -1,6 +1,6 @@
 # Keystroke Typer · Human（拟人节奏 fork）
 
-从 `~/Documents/GitHub/raycast-keystroke-typer` 派生的**独立扩展**。原版完全保留、未修改；本 fork 使用独立的扩展名 `keystroke-typer-human`、独立图标与独立注册目录，两者可同时启用。
+从 `raycast-keystroke-typer` 派生的**独立扩展**。原版完全保留、未修改；本 fork 使用独立的扩展名 `keystroke-typer-human`、独立图标与独立注册目录，两者可同时启用。
 
 基础能力不变：把文字（含中文、emoji、换行）注入为 OS 级 `CGEvent` 键盘事件，不写剪贴板、不触发 `paste`，因此可填入屏蔽粘贴的输入框。
 
@@ -139,7 +139,7 @@ printf 'The internationalization effort was unexpectedly complicated, but overal
 
 | 项目 | 状态 |
 | --- | --- |
-| 原项目 `~/Documents/GitHub/raycast-keystroke-typer` | 未改动 |
+| 原项目 `raycast-keystroke-typer` | 未改动 |
 | 原注册目录 `~/.config/raycast/extensions/keystroke-typer` | 校验和前后一致 |
 | fork 注册目录 | `~/.config/raycast/extensions/keystroke-typer-human`（独立） |
 | `npm run build`（静态 dist）/ `npm run install:raycast` | 通过 |
