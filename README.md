@@ -86,11 +86,24 @@
 
 ---
 
-## 安装与启用
+## 安装与启用（静态安装，无需 `npm run dev`）
 
-已构建并注册到 `~/.config/raycast/extensions/keystroke-typer-human/`。在 Raycast 里执行 **Reload Extensions** 或重启 Raycast，搜索 `Type Text Like a Human`。若未出现，在项目目录执行 `npm run dev`，或用 Extensions → Import Extension 指向 `dist/`。
+扩展已以**纯静态产物**安装到 `~/.config/raycast/extensions/keystroke-typer-human/`：只有 `package.json`、编译好的 JS 与 `assets/`，没有 `cli.pid` / `dev.log`，因此 Raycast 不会把它当作「开发中的扩展」去等待 `ray develop` watcher。运行时**不依赖**本项目的 `node_modules`，也不需要 npm 或 Node 常驻。
 
-首次使用先运行 **Check Accessibility Permission**，在「系统设置 → 隐私与安全性 → 辅助功能」授权（通常是 Raycast）。该权限同时供事件 tap 使用。授权后如仍失败，重启一次 Raycast。
+**唯一需要你做的一步**：在 Raycast 里执行 **Reload Extensions**（或重启 Raycast），然后搜索 `Type Text Like a Human`。
+
+以后改动源码后，重新构建并安装：
+
+```bash
+npm run build           # 生成静态产物到 dist/
+npm run install:raycast # 把 dist/ 安装到 Raycast 扩展目录并清除 dev 标记
+```
+
+安装脚本 `scripts/install.sh` 也可用 `RAYCAST_EXTENSIONS_DIR=/你的/自定义/目录 npm run install:raycast` 覆盖目标路径（若你在 Raycast 设置里改过扩展目录）。`npm run dev` 仅保留给需要热重载调试源码的场景，正常使用完全不需要。
+
+> 若 Reload 后仍未出现在扩展列表，在 Raycast 里用 **Extensions → Import Extension** 指向本项目的 `dist/` 目录即可；这一步只需做一次。
+
+首次使用先运行 **Check Accessibility Permission**，在「系统设置 → 隐私与安全性 → 辅助功能」授权（通常是 Raycast）。该权限同时供 Esc 事件 tap 使用。授权后如仍失败，重启一次 Raycast。
 
 ---
 
@@ -129,7 +142,7 @@ printf 'The internationalization effort was unexpectedly complicated, but overal
 | 原项目 `~/Documents/GitHub/raycast-keystroke-typer` | 未改动 |
 | 原注册目录 `~/.config/raycast/extensions/keystroke-typer` | 校验和前后一致 |
 | fork 注册目录 | `~/.config/raycast/extensions/keystroke-typer-human`（独立） |
-| `npm run build` / `npx ray build -e dist -o dist` | 通过 |
+| `npm run build`（静态 dist）/ `npm run install:raycast` | 通过 |
 | `npx tsc --noEmit` / `npm run lint:local` | 通过 |
 | `npm run test:helper` | 31/31 通过 |
 | 真实 Esc 中断（项目内 + 注册版） | 通过 |
@@ -156,14 +169,15 @@ printf 'The internationalization effort was unexpectedly complicated, but overal
 raycast-keystroke-typer-human/
 ├── src/{type-text.tsx, type-clipboard.ts, check-accessibility.ts, lib/typer.ts}
 ├── assets/{TypeKeystrokes.swift, type-keystrokes-helper, icon.png}
-├── scripts/{build-helper.sh, test-helper.sh}
+├── scripts/{build-helper.sh, test-helper.sh, install.sh}
 ├── dist/                    已构建、可直接导入
 └── README.md
 ```
 
 ```bash
-npm run dev            # 开发模式注册（热重载）
-npm run build          # 构建并写入 Raycast 本地扩展目录
+npm run install:raycast # 把静态 dist/ 装进 Raycast，清除 dev 标记（日常只需这个）
+npm run build          # 从源码生成静态 dist/
+npm run dev            # 可选：开发模式热重载，正常使用不需要
 npm run lint:local     # ESLint + Prettier
 npm run typecheck      # TypeScript 检查
 npm run build:helper   # 重新编译 Swift 助手
