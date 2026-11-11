@@ -1,0 +1,201 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "keystroke-typer-human",
+  "title": "Keystroke Typer · Human",
+  "description": "Human-paced keystroke injection: 75-100 WPM drift, periodic and long-word pauses, typo-and-retype, Esc to abort, for paste-blocked input fields.",
+  "icon": "icon.png",
+  "author": "suzune",
+  "license": "MIT",
+  "platforms": ["macOS"],
+  "categories": ["Productivity", "Developer Tools"],
+  "keywords": ["keystroke", "paste", "clipboard", "type", "accessibility", "human", "wpm", "中文"],
+  "commands": [
+    {
+      "name": "type-text",
+      "title": "Type Text Like a Human",
+      "subtitle": "Keystroke Typer · Human",
+      "description": "Type text with drifting WPM, hesitation before long words and occasional typo-and-retype.",
+      "mode": "view"
+    },
+    {
+      "name": "type-clipboard",
+      "title": "Type Clipboard Like a Human",
+      "subtitle": "Keystroke Typer · Human",
+      "description": "Type the clipboard content using the human-pacing preferences below.",
+      "mode": "no-view"
+    },
+    {
+      "name": "check-accessibility",
+      "title": "Check Accessibility Permission",
+      "subtitle": "Keystroke Typer · Human",
+      "description": "Verify or grant the Accessibility permission required to synthesize keyboard events.",
+      "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "humanMode",
+      "title": "Human Pacing",
+      "label": "Enable WPM drift, long-word pauses and typos",
+      "description": "Turn off to fall back to the fixed-interval engine of the original extension.",
+      "type": "checkbox",
+      "required": false,
+      "default": true
+    },
+    {
+      "name": "wpmMin",
+      "title": "Minimum WPM",
+      "description": "Lower bound of the per-word typing speed. Standard WPM: 5 characters = 1 word.",
+      "type": "textfield",
+      "required": false,
+      "default": "75"
+    },
+    {
+      "name": "wpmMax",
+      "title": "Maximum WPM",
+      "description": "Upper bound of the per-word typing speed.",
+      "type": "textfield",
+      "required": false,
+      "default": "100"
+    },
+    {
+      "name": "longWordLength",
+      "title": "Long Word Threshold",
+      "description": "Words strictly longer than this many characters may trigger a hesitation pause.",
+      "type": "textfield",
+      "required": false,
+      "default": "10"
+    },
+    {
+      "name": "pauseChance",
+      "title": "Hesitation Chance (%)",
+      "description": "Probability of pausing before a long word.",
+      "type": "textfield",
+      "required": false,
+      "default": "50"
+    },
+    {
+      "name": "pauseMinMs",
+      "title": "Hesitation Min (ms)",
+      "type": "textfield",
+      "required": false,
+      "default": "500"
+    },
+    {
+      "name": "pauseMaxMs",
+      "title": "Hesitation Max (ms)",
+      "type": "textfield",
+      "required": false,
+      "default": "3000"
+    },
+    {
+      "name": "phraseMin",
+      "title": "Words Between Breath Pauses (Min)",
+      "description": "After every N words (N sampled in this range) the typer takes a short breath.",
+      "type": "textfield",
+      "required": false,
+      "default": "10"
+    },
+    {
+      "name": "phraseMax",
+      "title": "Words Between Breath Pauses (Max)",
+      "type": "textfield",
+      "required": false,
+      "default": "20"
+    },
+    {
+      "name": "phrasePauseMs",
+      "title": "Breath Pause (ms)",
+      "type": "textfield",
+      "required": false,
+      "default": "1000"
+    },
+    {
+      "name": "typoChance",
+      "title": "Typo Chance (%)",
+      "description": "Probability per word of hitting a neighbouring QWERTY key, then deleting and retyping the whole word.",
+      "type": "textfield",
+      "required": false,
+      "default": "5"
+    },
+    {
+      "name": "focusDelay",
+      "title": "Focus Delay (ms)",
+      "description": "Time to wait after closing the Raycast window so the previous app regains focus before typing starts.",
+      "type": "textfield",
+      "required": false,
+      "default": "700"
+    },
+    {
+      "name": "interval",
+      "title": "Typing Interval (ms) [classic mode]",
+      "description": "Only used when Human Pacing is off. Delay between two characters.",
+      "type": "textfield",
+      "required": false,
+      "default": "12"
+    },
+    {
+      "name": "jitter",
+      "title": "Random Jitter (ms) [classic mode]",
+      "type": "textfield",
+      "required": false,
+      "default": "0"
+    },
+    {
+      "name": "maxCharacters",
+      "title": "Max Characters",
+      "description": "Safety cap. 2000 characters at 75-100 WPM takes roughly 4-6 minutes including pauses.",
+      "type": "textfield",
+      "required": false,
+      "default": "2000"
+    },
+    {
+      "name": "physicalKeys",
+      "title": "Use Physical Key Codes for ASCII",
+      "label": "Emit real ANSI key codes (strict input detectors)",
+      "description": "Emits key codes with correct event.code for ASCII, and temporarily switches to an ABC/US keyboard layout. Chinese characters still use Unicode injection.",
+      "type": "checkbox",
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "clearFirst",
+      "title": "Clear Target Field First",
+      "label": "Send Cmd+A then Backspace before typing",
+      "description": "Only safe when the caret is inside a text field; in a browser body Cmd+A selects the whole page.",
+      "type": "checkbox",
+      "required": false,
+      "default": false
+    },
+    {
+      "name": "pressReturn",
+      "title": "Press Return Afterwards",
+      "label": "Send Return after typing",
+      "description": "Useful for single-line inputs such as chat boxes or search fields.",
+      "type": "checkbox",
+      "required": false,
+      "default": false
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.6.3"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "eslint": "^10.13.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "dev": "ray develop",
+    "build": "ray build",
+    "lint": "ray lint",
+    "lint:local": "eslint src && prettier --check \"src/**/*.{ts,tsx}\"",
+    "fix-lint": "ray lint --fix",
+    "build:helper": "bash scripts/build-helper.sh",
+    "test:helper": "bash scripts/test-helper.sh",
+    "typecheck": "tsc --noEmit"
+  }
+}
